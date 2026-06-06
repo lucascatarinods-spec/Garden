@@ -265,7 +265,7 @@ export default function GardenApp() {
   const callAPI = async (b64, prompt) => {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": import.meta.env.VITE_API_KEY, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+      headers: { "Content-Type": "application/json", "x-api-key": "PREVIEW_ONLY", "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
       body: JSON.stringify({ model: ANTHROPIC_MODEL, max_tokens: 1000, messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: "image/jpeg", data: b64 } }, { type: "text", text: prompt }] }] })
     });
     const data = await res.json();
@@ -300,8 +300,11 @@ export default function GardenApp() {
     const updated = [plant, ...savedPlants];
     persist(updated);
     setSaveModal(false);
-    setSavedConfirm(plant);
-    resetIdentify();
+    setResult(null);
+    setImage(null);
+    setImageB64(null);
+    setError(null);
+    setTimeout(() => setSavedConfirm(plant), 50);
   };
 
   const deletePlant = (id) => {
@@ -411,29 +414,7 @@ export default function GardenApp() {
       {/* SAVE MODAL */}
       {saveModal && result && (
         <SaveModal result={result} image={image} onSave={savePlant} onCancel={() => setSaveModal(false)} />
-      )} {/* SAVED CONFIRM */}
-        {savedConfirm && (
-          <div style={S.modalOverlay} onClick={() => setSavedConfirm(null)}>
-            <div style={S.modal} onClick={e => e.stopPropagation()}>
-              {savedConfirm.image && <img src={savedConfirm.image} alt={savedConfirm.nickname} style={S.modalImg} />}
-              <div style={{ textAlign: "center", marginBottom: 16 }}>
-                <div style={{ fontSize: 48 }}>🌻</div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: theme.primary, marginTop: 8 }}>
-                  "{savedConfirm.nickname}" adicionada!
-                </div>
-                <div style={{ fontSize: 14, color: theme.muted, marginTop: 4 }}>
-                  {savedConfirm.name} foi salva no seu jardim.
-                </div>
-              </div>
-              <button style={S.btn("primary")} onClick={() => { setSavedConfirm(null); resetIdentify(); }}>
-                🌿 Identificar outra planta
-              </button>
-              <button style={{ ...S.btn("garden"), marginTop: 8 }} onClick={() => { setSavedConfirm(null); setTab("garden"); }}>
-                🪴 Ir para o Meu Jardim
-              </button>
-            </div>
-          </div>
-        )}
+      )}
 
       {/* PLANT MODAL */}
       {modal && (
