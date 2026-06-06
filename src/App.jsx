@@ -211,7 +211,7 @@ export default function GardenApp() {
     try {
       const r = await callAPI(imageB64, `Você é um especialista em botânica. Analise a imagem e identifique a planta. Responda APENAS com JSON válido, sem markdown: {"name":"Nome popular","scientific":"Nome científico","care":[{"icon":"💧","label":"Rega","value":"..."},{"icon":"☀️","label":"Luz","value":"..."},{"icon":"🌱","label":"Solo","value":"..."},{"icon":"🌡️","label":"Temperatura","value":"..."},{"icon":"🧪","label":"Fertilização","value":"..."}],"curiosity":"Uma curiosidade"}`);
       setResult(r);
-    } catch { setError("Não foi possível analisar a imagem. Tente com uma foto mais clara."); }
+    } } catch(e) { setError("Erro: " + e.message); }
     setLoading(false);
   };
 
