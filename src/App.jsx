@@ -98,7 +98,7 @@ function UploadCard({ variant, label, icon, onImageSelect, image }) {
       onDragLeave={() => setDrag(false)}
       onDrop={(e) => { e.preventDefault(); setDrag(false); handle(e.dataTransfer.files[0]); }}
       onClick={() => inputRef.current.click()}>
-      <input ref={inputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => handle(e.target.files[0])} />
+      <input ref={inputRef} type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={(e) => handle(e.target.files[0])} />
       <div style={{ fontSize: 48, marginBottom: 8 }}>{icon}</div>
       <div><strong style={{ color: variant === "danger" ? theme.danger : theme.primary }}>{label}</strong><br /><span style={{ color: theme.muted, fontSize: 14 }}>Toque aqui ou arraste uma imagem</span></div>
       {image && <img src={image} alt="preview" style={S.preview} />}
