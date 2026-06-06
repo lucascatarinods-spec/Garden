@@ -304,7 +304,7 @@ export default function GardenApp() {
     setImage(null);
     setImageB64(null);
     setError(null);
-    setTimeout(() => setSavedConfirm(plant), 50);
+    setSavedConfirm(plant);
   };
 
   const deletePlant = (id) => {
