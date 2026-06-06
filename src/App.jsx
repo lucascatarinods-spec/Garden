@@ -419,7 +419,29 @@ export default function GardenApp() {
       {/* PLANT MODAL */}
       {modal && (
         <PlantModal plant={modal} onClose={() => setModal(null)} onDelete={deletePlant} onDiagnose={startDiagnoseFromGarden} />
-      )}
+      )} {/* SAVED CONFIRM */}
+        {savedConfirm && (
+          <div style={S.modalOverlay} onClick={() => setSavedConfirm(null)}>
+            <div style={S.modal} onClick={e => e.stopPropagation()}>
+              {savedConfirm.image && <img src={savedConfirm.image} alt={savedConfirm.nickname} style={S.modalImg} />}
+              <div style={{ textAlign: "center", marginBottom: 16 }}>
+                <div style={{ fontSize: 48 }}>🌻</div>
+                <div style={{ fontSize: 22, fontWeight: 800, color: theme.primary, marginTop: 8 }}>
+                  "{savedConfirm.nickname}" adicionada!
+                </div>
+                <div style={{ fontSize: 14, color: theme.muted, marginTop: 4 }}>
+                  {savedConfirm.name} foi salva no seu jardim.
+                </div>
+              </div>
+              <button style={S.btn("primary")} onClick={() => { setSavedConfirm(null); resetIdentify(); }}>
+                🌿 Identificar outra planta
+              </button>
+              <button style={{ ...S.btn("garden"), marginTop: 8 }} onClick={() => { setSavedConfirm(null); setTab("garden"); }}>
+                🪴 Ir para o Meu Jardim
+              </button>
+            </div>
+          </div>
+        )}
     </div>
   );
 }
