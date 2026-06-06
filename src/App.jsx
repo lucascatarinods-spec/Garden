@@ -195,15 +195,16 @@ export default function GardenApp() {
   };
 
   const callAPI = async (b64, prompt) => {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": API_KEY, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-      body: JSON.stringify({ model: ANTHROPIC_MODEL, max_tokens: 1000, messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: "image/jpeg", data: b64 } }, { type: "text", text: prompt }] }] })
-    });
-    const data = await res.json();
-    const text = data.content?.map(b => b.text || "").join("").trim();
-    return JSON.parse(text.replace(/```json|```/g, "").trim());
-  };
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-api-key": API_KEY, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+    body: JSON.stringify({ model: ANTHROPIC_MODEL, max_tokens: 1000, messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: "image/jpeg", data: b64 } }, { type: "text", text: prompt }] }] })
+  });
+  const data = await res.json();
+  if (!data.content) throw new Error(JSON.stringify(data));
+  const text = data.content?.map(b => b.text || "").join("").trim();
+  return JSON.parse(text.replace(/```json|```/g, "").trim());
+};
 
   const analyze = async () => {
     if (!imageB64) return;
