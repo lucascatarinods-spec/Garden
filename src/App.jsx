@@ -239,6 +239,7 @@ export default function GardenApp() {
   const [savedPlants, setSavedPlants] = useState([]);
   const [modal, setModal] = useState(null);
   const [saveModal, setSaveModal] = useState(false);
+  const [savedConfirm, setSavedConfirm] = useState(null); // planta recém salva
   const [diagnosingPlant, setDiagnosingPlant] = useState(null); // plant being diagnosed
   const [diagSaveBanner, setDiagSaveBanner] = useState(false);
 
@@ -299,6 +300,7 @@ export default function GardenApp() {
     const updated = [plant, ...savedPlants];
     persist(updated);
     setSaveModal(false);
+    setSavedConfirm(plant);
     resetIdentify();
   };
 
