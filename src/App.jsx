@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
+const ANTHROPIC_MODEL = "claude-sonnet-4-5";
 const API_KEY = import.meta.env.VITE_API_KEY; // substitua pela sua chave
 
 const theme = {
